@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { FC, useState } from "react";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+
+import { useUserAuth } from "@/context/UserAuthContext";
 
 import { FaTasks } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
@@ -12,21 +13,42 @@ import { RiLockPasswordFill } from "react-icons/ri";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 
-const SignUp = () => {
-  const router = useRouter();
+const SignUp: FC = () => {
+  const { signUp } = useUserAuth()
 
   const [userDetail, setUserDetail] = useState({
     name: "",
     email: "",
     password: "",
   });
+
   const [viewPassword, setViewPassword] = useState(false);
   const [error, setError] = useState("");
 
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setUserDetail(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await signUp(userDetail.name, userDetail.email, userDetail.password);
+    } catch (error: string | any) {
+      setError(`${error.message}`);
+    }
+  };
+
   return (
-    <div className="p-10">
+    <div className="mt-12 px-4">
       <form
-        onSubmit={() => {}}
+        onSubmit={handleSubmit}
         className="mt-6 mx-auto space-y-6 shadow-md border px-10 py-8 rounded-xl border-t-2 border-gray-200"
       >
         <div className="text-center pb-6 space-y-4">
@@ -52,7 +74,7 @@ const SignUp = () => {
           <input
             name="name"
             value={userDetail.name}
-            onChange={() => {}}
+            onChange={handleChange}
             className="pl-10 py-3 rounded-lg focus:rounded-none w-full shadow-md outline-none focus:border-b-2 focus:border-orange-500"
             type="text"
             placeholder="Full Name"
@@ -70,7 +92,7 @@ const SignUp = () => {
           <input
             name="email"
             value={userDetail.email}
-            onChange={() => {}}
+            onChange={handleChange}
             className="pl-10 py-3 rounded-lg focus:rounded-none w-full shadow-md outline-none focus:border-b-2 focus:border-orange-500"
             type="email"
             placeholder="Email Address"
@@ -89,7 +111,7 @@ const SignUp = () => {
           <input
             name="password"
             value={userDetail.password}
-            onChange={() => {}}
+            onChange={handleChange}
             className="pl-10 py-3 rounded-lg focus:rounded-none w-full shadow-md outline-none focus:border-b-2 focus:border-orange-500"
             type={viewPassword ? `text` : `password`}
             placeholder="Password"
@@ -121,7 +143,10 @@ const SignUp = () => {
 
         <p className="text-center mb-4">
           Have an account?{" "}
-          <Link href="/auth/sign-in" className="font-medium hover:text-orange-500">
+          <Link
+            href="/auth/sign-in"
+            className="font-medium hover:text-orange-500"
+          >
             Sign In
           </Link>
         </p>

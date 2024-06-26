@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { FaTasks } from "react-icons/fa";
@@ -10,9 +9,10 @@ import { FaUserLock } from "react-icons/fa6";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { useUserAuth } from "@/context/UserAuthContext";
 
 const SignIn = () => {
-  const router = useRouter();
+  const { signIn } = useUserAuth();
 
   const [userDetail, setUserDetail] = useState({
     loginId: "",
@@ -23,12 +23,29 @@ const SignIn = () => {
 
   const [error, setError] = useState("");
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
 
+    setUserDetail((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await signIn(userDetail.loginId, userDetail.password);
+    } catch (error: string | any) {
+      setError(`${error.message}`);
+    }
+  };
 
   return (
-    <div className="mt-24 px-12 max-h-screen bg-white">
+    <div className="mt-24 px-4 max-h-screen bg-white">
       <form
-        onSubmit={()=>{}}
+        onSubmit={handleSubmit}
         className="mt-6 mx-auto space-y-6 shadow-md border px-10 py-8 rounded-xl border-t-2 border-gray-200"
       >
         <div className="text-center pb-6 space-y-4">
@@ -54,7 +71,7 @@ const SignIn = () => {
           <input
             name="loginId"
             value={userDetail.loginId}
-            onChange={()=>{}}
+            onChange={handleChange}
             className="pl-10 py-3 rounded-lg focus:rounded-none w-full shadow-md outline-none focus:border-b-2 focus:border-orange-500"
             type="text"
             placeholder="Username or Email"
@@ -72,29 +89,39 @@ const SignIn = () => {
           <input
             name="password"
             value={userDetail.password}
-            onChange={()=>{}}
+            onChange={handleChange}
             className="pl-10 py-3 rounded-lg focus:rounded-none w-full shadow-md outline-none focus:border-b-2 focus:border-orange-500"
-            type={viewPassword ? `text`: `password`}
+            type={viewPassword ? `text` : `password`}
             placeholder="Password"
           />
 
           {viewPassword ? (
-            <div
-              className="absolute flex items-center gap-1 right-3 text-sm bottom-4"
-              onClick={() => setViewPassword(!viewPassword)}
-            >
-              <FaRegEye className="text-orange-500" />
+            <div className="absolute flex items-center gap-1 right-3 text-sm bottom-3">
+              <FaRegEye
+                className="text-orange-500"
+                onClick={() => setViewPassword(!viewPassword)}
+              />
               <span className="font-medium">|</span>
-              <Link href={"/auth/reset-password"} className="text-orange-500 hover:text-orange-400">Forgot?</Link>
+              <Link
+                href={"/auth/forgot-password"}
+                className="text-orange-500 hover:text-orange-400"
+              >
+                Forgot?
+              </Link>
             </div>
           ) : (
-            <div
-              className="absolute flex items-center gap-1 right-3 text-sm bottom-3"
-              onClick={() => setViewPassword(!viewPassword)}
-            >
-              <FaRegEyeSlash className="text-orange-500" />
+            <div className="absolute flex items-center gap-1 right-3 text-sm bottom-3">
+              <FaRegEyeSlash
+                className="text-orange-500"
+                onClick={() => setViewPassword(!viewPassword)}
+              />
               <span className="font-medium">|</span>
-              <Link href={"/auth/reset-password"} className="text-orange-500 hover:text-orange-400">Forgot?</Link>
+              <Link
+                href={"/auth/forgot-password"}
+                className="text-orange-500 hover:text-orange-400"
+              >
+                Forgot?
+              </Link>
             </div>
           )}
         </div>
@@ -108,7 +135,10 @@ const SignIn = () => {
 
         <p className="text-center mb-4">
           Don&apos;t have an account?{" "}
-          <Link href="/auth/sign-up" className="font-medium hover:text-orange-500">
+          <Link
+            href="/auth/sign-up"
+            className="font-medium hover:text-orange-500"
+          >
             Sign Up
           </Link>
         </p>
