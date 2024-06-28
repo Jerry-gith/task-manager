@@ -2,10 +2,8 @@
 
 import { SetStateAction, useState } from "react";
 
-import Link from "next/link";
-import { FaTasks } from "react-icons/fa";
-
-import { sections } from "./sections";
+import { sections } from "@/constants/aboutSections";
+import { Header } from "@/components";
 
 const About = () => {
   const year = new Date().getFullYear();
@@ -18,29 +16,22 @@ const About = () => {
 
   return (
     <main className="text-justify">
-      <header className="flex justify-between items-center">
-        <Link
-          href={"/"}
-          className="font-mono font-bold text-xl flex items-center gap-3"
-        >
-          <span className="text-orange-500 inline">
-            <FaTasks />
-          </span>
-          Task Manager
-        </Link>
-
-        <Link className="hover:text-orange-500" href={"about"}>
-          About
-        </Link>
-      </header>
-
+      <Header />
       <div className="mt-16">
-        <h2 className="mb-4">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus
-          vitae quam et condimentum. Ut vel justo nulla. Pellentesque habitant
-          morbi tristique senectus et netus et malesuada fames ac turpis
-          egestas. Vivamus pellentesque sem gravida nisl hendrerit dignissim.
+
+        <span id="heading" className="mb-4">
+          <h1 className="text-orange-500 text-xl font-bold mb-2">About Task Manager</h1>
+          <hr className="w-1/6 border border-orange-500" />
+        </span>
+
+        <h2 className="my-4">
+          Welcome to Task Manager, your ultimate productivity tool designed to
+          help you manage your time, prioritize tasks, and achieve your goals
+          efficiently. Whether you're a student, professional, or entrepreneur,
+          Task Manager is here to streamline your workflow and keep you focused
+          on what matters most.
         </h2>
+
         {sections.map((section, index) => (
           <div key={section.id} className="space-y-4 pt-8">
             <h2 className="font-bold text-orange-500 rounded-xl p-4 shadow-md border border-orange-100 bg-white">

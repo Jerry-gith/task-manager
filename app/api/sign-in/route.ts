@@ -48,7 +48,7 @@ export async function POST(request: NextRequest): Promise<
     const token = jwt.sign({ id: userExists.id, name: userExists.name, email: userExists.email }, secret, { expiresIn: '1h' });
 
       return NextResponse.json(
-        { message: "Login successful!", token},
+        { message: "Login successful!", token, user: { name: userExists.name } },
         { status: 200 }
       );
 

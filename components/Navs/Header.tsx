@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaTasks } from "react-icons/fa";
 import { useUserAuth } from "@/context/UserAuthContext";
 
 const Header = () => {
+  const pathname = usePathname();
+
   const { userIsAuthenticated, signOut } = useUserAuth();
 
   return (
@@ -20,7 +23,13 @@ const Header = () => {
       </Link>
 
       <div className="space-x-3">
-        <Link className="hover:text-orange-500" href={"about"}>
+        <Link
+          href={"about"}
+          passHref
+          className={`hover:text-orange-500 ${
+            pathname === "/about" && "text-orange-500"
+          }`}
+        >
           About
         </Link>
 

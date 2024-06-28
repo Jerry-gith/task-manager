@@ -78,6 +78,7 @@ const SignUp: FC = () => {
             className="pl-10 py-3 rounded-lg focus:rounded-none w-full shadow-md outline-none focus:border-b-2 focus:border-orange-500"
             type="text"
             placeholder="Full Name"
+            autoComplete="username"
           />
         </div>
 
@@ -96,6 +97,7 @@ const SignUp: FC = () => {
             className="pl-10 py-3 rounded-lg focus:rounded-none w-full shadow-md outline-none focus:border-b-2 focus:border-orange-500"
             type="email"
             placeholder="Email Address"
+            autoComplete="username"
           />
         </div>
 
@@ -115,6 +117,7 @@ const SignUp: FC = () => {
             className="pl-10 py-3 rounded-lg focus:rounded-none w-full shadow-md outline-none focus:border-b-2 focus:border-orange-500"
             type={viewPassword ? `text` : `password`}
             placeholder="Password"
+            autoComplete="new-password"
           />
 
           {viewPassword ? (

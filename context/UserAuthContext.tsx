@@ -1,6 +1,6 @@
 "use client";
 
-import {
+import React, {
   createContext,
   ReactNode,
   useContext,
@@ -66,10 +66,13 @@ export const UserAuthProvider = ({ children }: { children: ReactNode }) => {
     });
 
     if (response.ok) {
-      const userData = await response.json();
+
+      const { message, token, user } = await response.json(); 
+      const userData = { message, token, ...user };
+
       setUser(userData);
       setCookie(null, "auth-token", userData.token, {
-        maxAge: 30 * 24 * 60 * 60, // 30 days
+        maxAge: 30 * 24 * 60 * 60,
         path: "/",
       });
       localStorage.setItem("user", JSON.stringify(userData));

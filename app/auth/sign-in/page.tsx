@@ -31,7 +31,7 @@ const SignIn = () => {
       [name]: value,
     }));
   };
-
+  
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -75,6 +75,7 @@ const SignIn = () => {
             className="pl-10 py-3 rounded-lg focus:rounded-none w-full shadow-md outline-none focus:border-b-2 focus:border-orange-500"
             type="text"
             placeholder="Username or Email"
+            autoComplete="username"
           />
         </div>
 
@@ -93,6 +94,7 @@ const SignIn = () => {
             className="pl-10 py-3 rounded-lg focus:rounded-none w-full shadow-md outline-none focus:border-b-2 focus:border-orange-500"
             type={viewPassword ? `text` : `password`}
             placeholder="Password"
+            autoComplete="current-password"
           />
 
           {viewPassword ? (
