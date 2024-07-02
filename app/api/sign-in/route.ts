@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/server/prisma/client";
+import prisma from "@/_misc/server/prisma/client";
 import { signInSchema } from "../schema";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const secret = process.env.JWT_SECRET || 'your-secret-key';
+const secret = process.env.JWT_SECRET || "your-secret-key";
 
 export async function POST(request: NextRequest): Promise<
   | NextResponse<{
@@ -43,15 +43,21 @@ export async function POST(request: NextRequest): Promise<
     if (
       !!userExists &&
       (await bcrypt.compare(userDetails.password, userExists.password))
-    ){
-
-    const token = jwt.sign({ id: userExists.id, name: userExists.name, email: userExists.email }, secret, { expiresIn: '1h' });
-
-      return NextResponse.json(
-        { message: "Login successful!", token, user: { name: userExists.name } },
-        { status: 200 }
+    ) {
+      const token = jwt.sign(
+        { id: userExists.id, name: userExists.name, email: userExists.email },
+        secret,
+        { expiresIn: "1h" }
       );
 
+      return NextResponse.json(
+        {
+          message: "Login successful!",
+          token,
+          user: { name: userExists.name },
+        },
+        { status: 200 }
+      );
     } else
       return NextResponse.json(
         {

@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signUpSchema } from "../schema";
-import prisma from "@/server/prisma/client";
+import prisma from "@/_misc/server/prisma/client";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const secret = process.env.JWT_SECRET || 'your-secret-key';
+const secret = process.env.JWT_SECRET || "your-secret-key";
 
 export async function POST(request: NextRequest): Promise<
   NextResponse<{
@@ -56,7 +56,11 @@ export async function POST(request: NextRequest): Promise<
       },
     });
 
-    const token = jwt.sign({ id: signupUser.id, name: signupUser.name, email: signupUser.email }, secret, { expiresIn: '1h' });
+    const token = jwt.sign(
+      { id: signupUser.id, name: signupUser.name, email: signupUser.email },
+      secret,
+      { expiresIn: "1h" }
+    );
 
     return NextResponse.json(
       {

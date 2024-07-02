@@ -37,15 +37,15 @@ const HomeSection = () => {
           <>
             <Link
               className="bg-orange-500 py-3 px-6 rounded-full text-white shadow-md hover:bg-orange-400"
-              href={"/auth/sign-up"}
-            >
-              Sign Up
-            </Link>
-            <Link
-              className="border border-orange-500 py-3 px-6 rounded-full text-orange-500 shadow-md hover:bg-orange-500 hover:text-white"
               href={"/auth/sign-in"}
             >
               Sign In
+            </Link>
+            <Link
+              className="border border-orange-500 py-3 px-6 rounded-full text-orange-500 shadow-md hover:bg-orange-500 hover:text-white"
+              href={"/auth/sign-up"}
+            >
+              Sign Up
             </Link>
           </>
         )}
